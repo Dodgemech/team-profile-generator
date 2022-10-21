@@ -3,10 +3,17 @@ const Employee = require('./lib/Employee.js');
 const Engineer = require('./lib/Engineer.js');
 const Intern = require('./lib/Intern.js');
 const Manager = require('./lib/Manager.js');
+// import page template js file
+const generatePage = require('./src/page-template.js');
 // import fs and path modules
 const fs = require('fs');
 const path = require('path');
 const inquirer = require('inquirer');
+
+// path to directory
+const dir = path.resolve(__dirname, 'dist');
+// path to output html page
+const distHTML = path.join(dir, 'index.html');
 
 // empty array for team info to be pushed to
 const teamArr = [];
@@ -226,7 +233,14 @@ const addIntern = () => {
             // call addTeamMember() function
             addTeamMember();
         });
-}
+};
+
+// function that creates html page
+const buildTeam = () => {
+    console.log("Generating team page...");
+    fs.writeFileSync(distHTML, generatePage(teamArr), 'utf-8');
+    console.log("Page generated successfully!");
+};
 
 // call createTeam() function at start of application
 createTeam();
